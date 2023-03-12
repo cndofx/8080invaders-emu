@@ -1,5 +1,7 @@
 use std::io::Read;
 
+use invaders::instructions::Instruction;
+
 // http://www.emulator101.com/reference/8080-by-opcode.html
 
 fn main() {
