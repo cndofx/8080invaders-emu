@@ -3,11 +3,12 @@ use std::io::Read;
 // http://www.emulator101.com/reference/8080-by-opcode.html
 
 fn main() {
-    let mut rom = std::fs::File::open("rom/invaders.h").unwrap();
+    let mut rom = std::fs::File::open("rom/invaders").unwrap();
     let mut data: Vec<u8> = Vec::new();
     rom.read_to_end(&mut data).unwrap();
 
-    let mut pc = 0;
+    // let mut pc = 0;
+    let mut pc = 0x18D4;
     while pc < data.len() {
         pc += disassemble(&data, pc);
     }
@@ -27,8 +28,16 @@ fn disassemble(data: &[u8], pc: usize) -> usize {
             println!("LXI {:#06X}", d16);
             3
         }
+        0x06 => {
+            println!("MVI B,{:#04X}", d8);
+            2
+        }
         0x21 => {
             println!("LXI H,{:#06X}", d16);
+            3
+        }
+        0x31 => {
+            println!("LXI SP,{:#06X}", d16);
             3
         }
         0x32 => {
