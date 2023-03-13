@@ -1,5 +1,5 @@
 #[allow(non_camel_case_types)]
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum Instruction {
     NOP,            // 0x00
     LXI_B_D16(u16), // 0x01
@@ -562,7 +562,7 @@ impl Instruction {
 
             0xFE => (Instruction::CPI_D8(d8), 2),
             0xFF => (Instruction::RST_7, 1),
-            
+
             _ => panic!("unknown instruction while disassembling: {:#04X}", data[pc]),
         }
     }

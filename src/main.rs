@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use invaders::instructions::Instruction;
+use invaders::{instructions::Instruction, cpu::Cpu};
 
 // http://www.emulator101.com/reference/8080-by-opcode.html
 
@@ -9,11 +9,23 @@ fn main() {
     let mut data: Vec<u8> = Vec::new();
     rom.read_to_end(&mut data).unwrap();
 
-    // let mut pc = 0;
-    let mut pc = 0x18D4;
-    while pc < data.len() {
-        pc += disassemble(&data, pc);
+    let mut cpu = Cpu::new();
+    cpu.load(&data, 0);
+
+    loop {
+        cpu.print_state();
+        let (inst, len) = cpu.fetch();
+        // cpu.execute_and_advance(inst, len);
+        // cpu.execute(inst, len);
+        cpu.execute(inst);
+        println!("executed {:X?} ({} bytes)", inst, len);
     }
+
+    // let mut pc = 0;
+    // let mut pc = 0x18D4;
+    // while pc < data.len() {
+    //     pc += disassemble(&data, pc);
+    // }
 }
 
 /// returns the size of the disassembled instruction
