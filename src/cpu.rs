@@ -107,6 +107,18 @@ impl Cpu {
         println!("    z = {}, s = {}", self.flags.z, self.flags.s);
         println!("    p = {}, cy = {}\n", self.flags.p, self.flags.cy);
     }
+
+    fn _push_stack(&mut self, value: u16) {
+        let bytes = value.to_le_bytes();
+        self.memory[self.sp - 2..self.sp].copy_from_slice(&bytes);
+        self.sp -= 2;
+    }
+
+    fn _pop_stack(&mut self) -> u16 {
+        let value = ((self.memory[self.sp + 1] as u16) << 8) | (self.memory[self.sp] as u16);
+        self.sp += 2;
+        value
+    }
 }
 
 impl Flags {

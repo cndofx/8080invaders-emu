@@ -20,12 +20,6 @@ fn main() {
         cpu.execute(inst);
         println!("executed {:X?} ({} bytes)", inst, len);
     }
-
-    // let mut pc = 0;
-    // let mut pc = 0x18D4;
-    // while pc < data.len() {
-    //     pc += disassemble(&data, pc);
-    // }
 }
 
 /// returns the size of the disassembled instruction
