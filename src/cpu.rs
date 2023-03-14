@@ -82,6 +82,10 @@ impl Cpu {
                 self.a = (res & 0xFF) as u8;
                 self.pc += 2;
             }
+            CALL_ADR(adr) => {
+                self._push_stack(self.pc as u16);
+                self.pc = adr as usize;
+            }
             JMP_ADR(adr) => {
                 self.pc = adr as usize;
             }
@@ -106,6 +110,15 @@ impl Cpu {
         println!("  Flags:");
         println!("    z = {}, s = {}", self.flags.z, self.flags.s);
         println!("    p = {}, cy = {}\n", self.flags.p, self.flags.cy);
+    }
+
+    pub fn print_stack(&self, stack_base: usize) {
+        if self.sp != 0 {
+            let slice = &self.memory[self.sp..stack_base];
+            println!("Stack:\n{:02X?}", slice);
+        } else {
+            println!("Stack pointer not set");
+        }
     }
 
     fn _push_stack(&mut self, value: u16) {

@@ -14,11 +14,12 @@ fn main() {
 
     loop {
         cpu.print_state();
+        cpu.print_stack(0x2400);
         let (inst, len) = cpu.fetch();
         // cpu.execute_and_advance(inst, len);
         // cpu.execute(inst, len);
         cpu.execute(inst);
-        println!("executed {:X?} ({} bytes)", inst, len);
+        println!("executed {:X?} ({} bytes)\n\n", inst, len);
     }
 }
 
